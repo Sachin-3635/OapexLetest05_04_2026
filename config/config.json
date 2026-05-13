@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "opex-dashboard-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/opexDashboard/OpexDashboardWebPart.js",
+          "manifest": "./src/webparts/opexDashboard/OpexDashboardWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "OpexDashboardWebPartStrings": "lib/webparts/opexDashboard/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+  }
+}

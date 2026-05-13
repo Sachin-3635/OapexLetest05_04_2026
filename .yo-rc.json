@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.8",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "opex-final-form",
+    "libraryId": "cea26773-ac76-4339-8ed2-4df0b2d48ebb",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "opex-final-form",
+    "solutionShortDescription": "opex-final-form description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

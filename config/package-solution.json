@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "opex-final-form-client-side-solution",
+    "id": "cea26773-ac76-4339-8ed2-4df0b2d48ebb",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "opex-final-form description"
+      },
+      "longDescription": {
+        "default": "opex-final-form description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "opex-final-form Feature",
+        "description": "The feature that activates elements of the opex-final-form solution.",
+        "id": "c56e5447-bb99-4a8d-a72b-aa7ffdfef4cc",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/opex-final-form.sppkg"
+  }
+}
