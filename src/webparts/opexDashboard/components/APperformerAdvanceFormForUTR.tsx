@@ -44,7 +44,7 @@ const APperformerAdvanceFormForUTR: React.FC<IProps> = ({
     msGraphClientFactory: context.msGraphClientFactory,
     spHttpClient: context.spHttpClient,
   };
-const getLoggedInUser = async () => {
+  const getLoggedInUser = async () => {
     try {
       const currentUser = await sp.web.currentUser();
       const email = currentUser.Email;
@@ -152,7 +152,7 @@ const getLoggedInUser = async () => {
       await getLoggedInUser();    // 👈 FIRST get user to apply any user-based filters in next calls
       await getItemById();    // 👈 FIRST load item to get VendorCode
       await getVendors();     // 👈 FIRST load vendors
-          // 👈 THEN item
+      // 👈 THEN item
     };
 
     void loadData();
@@ -390,7 +390,7 @@ const getLoggedInUser = async () => {
               </div>
             )}
             <div className='borderedbox'>
-              <div className="heading1">
+              <div className="heading1" style={{ marginTop: "10px" }}>
                 <label>Requestor Information</label>
               </div>
               <div className='main-formcontainer'>
@@ -437,22 +437,22 @@ const getLoggedInUser = async () => {
                   </div>
                 </div>
               </div>
-              <div className="heading1">
-                <label>Vendor & PO Details</label>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>Opex Details</label>
               </div>
               <div className='main-formcontainer'>
-                <div className='row mb-20'>
+                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Vendor Code</label>
                     <select
                       value={selectedVendorId ?? ""}
-                      disabled={true}
+                      className="form-control readonly"
                       onChange={(e) => {
                         const id = Number(e.target.value);
                         const vendor = vendors.find((v) => v.Id === id);
                         setSelectedVendorId(id);
                         setSelectedVendorName(vendor?.VendorName || "");
-                      }} className="formtext-control"
+                      }}
                     >
                       <option value="">Select Vendor</option>
                       {vendors.map((v) => (
@@ -463,49 +463,45 @@ const getLoggedInUser = async () => {
                     </select>
                   </div>
                   <div className="col-md-4">
-                    <label>Vendor Name</label>
+                    <label className="font">Vendor Name</label>
                     <input value={itemData.VendorName || ""} className="form-control readonly" />
                   </div>
                   <div className="col-md-4">
-                    <label>PO Number</label>
+                    <label className="font">PO Number</label>
                     <input value={itemData.PONumber || ""} className="form-control readonly" />
                   </div>
                 </div>
                 <div className='row mb-20'>
                   <div className="col-md-4">
                     <label className="font">PO Date</label>
-                    <input value={itemData.PODate ? new Date(itemData.PODate).toLocaleDateString("en-GB") : ""} className="font-control readonly" />
+                    <input value={itemData.PODate ? new Date(itemData.PODate).toLocaleDateString("en-GB") : ""} className="form-control readonly" />
                   </div>
                   <div className="col-md-4">
                     <label className="font">PO Terms</label>
-                    <input value={itemData.POAdvanceTerms || ""} className="font-control readonly" />
+                    <input value={itemData.POAdvanceTerms || ""} className="form-control readonly" />
                   </div>
                   <div className="col-md-4">
                     <label className="font">PO Amount</label>
-                    <input value={itemData.POAmtGST || ""} className="font-control readonly" />
+                    <input value={itemData.POAmtGST || ""} className="form-control readonly" />
                   </div>
                 </div>
                 <div className='row mb-20'>
                   <div className='col-md-4'>
                     <label className="font">Advance Amount</label>
-                    <input value={itemData.RequestAdvanceAmount || ""} className="font-control readonly" />
+                    <input value={itemData.RequestAdvanceAmount || ""} className="form-control readonly" />
                   </div>
                   <div className='col-md-4'>
                     <label className="font">Paid Amount</label>
-                    <input value={itemData.PaidAmount || ""} className="font-control readonly" />
+                    <input value={itemData.PaidAmount || ""} className="form-control readonly" />
                   </div>
-                </div>
-              </div>
-              <div className="heading1">
-                <label>Advance Details</label>
-              </div>
-              <div className='main-formcontainer'>
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Expected Settlement</label>
                     <input value={itemData.ExpectedDateofSettlement ? new Date(itemData.ExpectedDateofSettlement,).toLocaleDateString("en-GB") : ""}
-                      className="font-control readonly" />
+                      className="form-control readonly" />
                   </div>
+                </div>
+                <div className="row mb-20">
+
                   <div className="col-md-4">
                     <label className="font">PIC Name</label>
                     <PeoplePicker
@@ -520,54 +516,61 @@ const getLoggedInUser = async () => {
                   </div>
                   <div className="col-md-4">
                     <label className="font">GL Code</label>
-                    <input value={itemData.GL || ""} className="font-control readonly" />
+                    <input value={itemData.GL || ""} className="form-control readonly" />
                   </div>
-                </div>
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Cost Center</label>
-                    <input value={itemData.CostCenter || ""} className="font-control readonly" />
+                    <input value={itemData.CostCenter || ""} className="form-control readonly" />
                   </div>
                 </div>
-              </div>
-              <div className="heading1">
-                <label>Remarks</label>
-              </div>
-              <div className='main-formcontainer'>
                 <div className="row mb-20">
-                  <div className="col-md-4">
-                    <label className="font">User Remarks</label>
-                    <textarea value={itemData.Remarks || ""} className="font-control readonly" />
-                  </div>
                   <div className="col-md-4">
                     <label className="font">Purpose</label>
-                    <textarea value={itemData.Purpose || ""} className="font-control readonly" />
+                    <label className="fonttext textbox readonlytwo" style={{ width: "100%", height: "auto" }}>{itemData.Purpose || ""}</label>
                   </div>
                 </div>
               </div>
-              <div className="heading1">
-                <label>Approver Action</label>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>Vouching Details</label>
               </div>
               <div className='main-formcontainer'>
                 <div className="row mb-20">
-                  <div className="col-md-4">
-                    <label className="font">Approver Remarks</label>
-                    <textarea value={approverRemarks} onChange={(e) => setApproverRemarks(e.target.value)} className="font-control readonly" />
-                  </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <label className="font">Voucher Date</label>
                     <input value={itemData.VoucherDate
                       ? new Date(itemData.VoucherDate).toLocaleDateString("en-GB") : ""}
-                      className="font-control readonly" />
+                      className="form-control readonly" />
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <label className="font">Voucher Number</label>
-                    <input value={itemData.VouchingNumber || ""} className="font-control readonly" />
+                    <input value={itemData.VouchingNumber || ""} className="form-control readonly" />
                   </div>
                 </div>
               </div>
-              <div className="heading1">
-                <label>Upload Document</label>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>UTR Details</label>
+              </div>
+              <div className='main-formcontainer'>
+                <div className="row mb-20">
+                  <div className="col-md-6">
+                    <label className="font">UTR Date</label>
+                    <input type="date" className="form-control" value={UTRDate}
+                      onChange={(e) => setUTRDate(e.target.value)} />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="font">UTR Number</label>
+                    <input value={UTRNumber} className="form-control" onChange={(e) => setUTRNumber(e.target.value)} />
+                  </div>
+                </div>
+                <div className="row mb-20">
+                  <div className="col-md-12">
+                    <label className="font">UTR Remarks</label>
+                    <input className="form-control" onChange={(e) => setUTRRemarks(e.target.value)} />
+                  </div>
+                </div>
+              </div>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>Uploaded Document</label>
               </div>
               <div className='main-formcontainer'>
                 <div className='row mb-20'>
@@ -591,30 +594,15 @@ const getLoggedInUser = async () => {
                       </ul>
                     )}
                   </div>
-                  <div className="col-md-4">
-                    <label className="font">UTR Date</label>
-                    <input type="date" className="font-control" value={UTRDate}
-                      onChange={(e) => setUTRDate(e.target.value)} />
-                  </div>
-                  <div className="col-md-4">
-                    <label className="font">UTR Number</label>
-                    <input value={UTRNumber} className="font-control" onChange={(e) => setUTRNumber(e.target.value)} />
-                  </div>
-                </div>
-                <div className="row mb-20">
-                  <div className="col-md-4">
-                    <label className="font">UTR Remarks</label>
-                    <input className="font-control" onChange={(e) => setUTRRemarks(e.target.value)} />
-                  </div>
                 </div>
               </div>
-              <div className="heading1">
+              <div className="heading1" style={{ marginTop: "10px" }}>
                 <label>Workflow History</label>
               </div>
               <div className='main-formcontainer'>
                 <div className='row mb-20'>
                   <div className="col-md-12">
-                    {workflowHistory.length === 0 ? (
+                    {/* {workflowHistory.length === 0 ? (
                       <p>No history available</p>
                     ) : (
                       <div className="workflow-history">
@@ -637,7 +625,27 @@ const getLoggedInUser = async () => {
                           </div>
                         ))}
                       </div>
-                    )}
+                    )} */}
+                    <table className="workflow-table" style={{ width: '100%' }}>
+                      <thead>
+                        <tr>
+                          <th style={{ padding: '8px', textAlign: 'left' }}>Action By</th>
+                          <th style={{ padding: '8px', textAlign: 'left' }}>Action Taken</th>
+                          <th style={{ padding: '8px', textAlign: 'left' }}>Date</th>
+                          <th style={{ padding: '8px', textAlign: 'left' }}>Comment</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {workflowHistory.map((h: any, idx: number) => (
+                          <tr key={idx}>
+                            <td style={{ padding: '8px' }}>{h.CurrentApprover || ''}</td>
+                            <td style={{ padding: '8px' }}>{h.ActionTaken || ''}</td>
+                            <td style={{ padding: '8px' }}>{h.Date || ''}</td>
+                            <td style={{ padding: '8px' }}>{h.Comment || ''}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

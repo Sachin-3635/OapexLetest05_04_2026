@@ -67,10 +67,10 @@ const NewAdvanceform = ({ context }: any) => {
     }
   };
   const handleRemoveFile = (index: number) => {
-  const updatedFiles = [...attachments];
-  updatedFiles.splice(index, 1);
-  setAttachments(updatedFiles);
-};
+    const updatedFiles = [...attachments];
+    updatedFiles.splice(index, 1);
+    setAttachments(updatedFiles);
+  };
 
   const getPreviousAdvances = async (vendorId: number) => {
     try {
@@ -463,7 +463,7 @@ const NewAdvanceform = ({ context }: any) => {
         CurrentApproverId: currentApprover,
 
         WorkFlowHistory: JSON.stringify(wfHistory),
-        ApproverStatus:"Pending at RM"
+        ApproverStatus: "Pending at RM"
       });
       debugger;
       await uploadAttachments(capexId); // 🔥 FIXED
@@ -693,7 +693,7 @@ const NewAdvanceform = ({ context }: any) => {
                 </div>
               </div>
               <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Vendor & PO Details</label>
+                <label>Opex Details</label>
               </div>
               <div className="main-formcontainer">
                 <div className="row mb-20">
@@ -788,13 +788,6 @@ const NewAdvanceform = ({ context }: any) => {
                       }
                     />
                   </div>
-                </div>
-              </div>
-              <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Advance Details</label>
-              </div>
-              <div className="main-formcontainer">
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Expected Settlement Date</label>
                     <input
@@ -805,6 +798,8 @@ const NewAdvanceform = ({ context }: any) => {
                       onChange={(e) => setExpectedDate(e.target.value)}
                     />
                   </div>
+                </div>
+                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">PIC Name</label>
                     <PeoplePicker
@@ -819,13 +814,21 @@ const NewAdvanceform = ({ context }: any) => {
                     <label className="font">GL Code</label>
                     <input value={glCode} className="form-control readonly" />
                   </div>
-                </div>
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Cost Center</label>
                     <input
                       value={employee.CostCenter}
                       className="form-control readonly"
+                    />
+                  </div>
+                </div>
+                <div className="row mb-20">
+                  <div className="col-md-4">
+                    <label className="font">Purpose</label>
+                    <textarea
+                      value={Purpose}
+                      className="font-control"
+                      onChange={(e) => setPurpose(e.target.value)}
                     />
                   </div>
                 </div>
@@ -835,7 +838,7 @@ const NewAdvanceform = ({ context }: any) => {
               </div>
               <div className="main-formcontainer">
                 <div className="row mb-20">
-                  <div className="col-md-4">
+                  <div className="col-md-8">
                     <label className="font">Remarks</label>
                     <textarea
                       value={remarks}
@@ -844,20 +847,10 @@ const NewAdvanceform = ({ context }: any) => {
                     />
                   </div>
                   <div className="col-md-4">
-                    <label className="font">Purpose</label>
-                    <textarea
-                      value={Purpose}
-                      className="font-control"
-                      onChange={(e) => setPurpose(e.target.value)}
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <div className="col-md-4">
                       <label className="font">Attach</label>
-
                       <input
                         type="file"
-                        multiple
+                        multiple className="form-control"
                         onChange={(e) => {
                           if (e.target.files) {
                             setAttachments((prev) => [
@@ -891,7 +884,6 @@ const NewAdvanceform = ({ context }: any) => {
                           ))}
                         </ul>
                       )}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -931,7 +923,7 @@ const NewAdvanceform = ({ context }: any) => {
                                   const pending = Math.max(
                                     0,
                                     Number(item.RequestAdvanceAmount || 0) -
-                                      Number(item.PaidAmount || 0),
+                                    Number(item.PaidAmount || 0),
                                   );
                                   return (
                                     <tr key={index}>
@@ -941,16 +933,16 @@ const NewAdvanceform = ({ context }: any) => {
                                       <td>
                                         {item.Created
                                           ? new Date(
-                                              item.Created,
-                                            ).toLocaleDateString()
+                                            item.Created,
+                                          ).toLocaleDateString()
                                           : ""}
                                       </td>
 
                                       <td>
                                         {item.VoucherDate
                                           ? new Date(
-                                              item.VoucherDate,
-                                            ).toLocaleDateString()
+                                            item.VoucherDate,
+                                          ).toLocaleDateString()
                                           : ""}
                                       </td>
 

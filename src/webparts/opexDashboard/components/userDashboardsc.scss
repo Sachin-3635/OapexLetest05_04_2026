@@ -229,6 +229,39 @@ input {
     white-space: nowrap;
 }
 
+
+.workflow-table th:nth-child(1) {
+    width: 15%;
+}
+
+.workflow-table th:nth-child(2) {
+    width: 15%;
+}
+
+.workflow-table th:nth-child(3) {
+    width: 20%;
+}
+
+.workflow-table th:nth-child(4) {
+    width: 50%;
+}
+
+
+
+
+.workflow-table th {
+    background-color: #000;
+    color: #fff;
+}
+
+.workflow-table th,
+.workflow-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+    word-break: break-word;
+}
+
 .header {
     background: linear-gradient(90deg, #3c3e45, #2d2d2d);
     color: #fff;
@@ -254,7 +287,8 @@ input {
     gap: 10px;
     margin: 5px;
 }
-.mainsecondsmall{
+
+.mainsecondsmall {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -280,15 +314,15 @@ input {
     text-decoration: none;
 }
 
-  #spCommandBar,
-  #spSiteHeader,
-  #spLeftNav,
-  .ommandBarWrapper,
-  .sp-appBar,
-  #CommentsWrapper {
+#spCommandBar,
+#spSiteHeader,
+#spLeftNav,
+.ommandBarWrapper,
+.sp-appBar,
+#CommentsWrapper {
     display: none !important;
-  }
+}
 
-  .CanvasZoneSectionContainer {
+.CanvasZoneSectionContainer {
     max-width: 100% !important;
-  }
+}

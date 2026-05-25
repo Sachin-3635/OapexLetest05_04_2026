@@ -183,15 +183,15 @@ const EditAdvanceForm = ({ context, formData, onClose }: any) => {
     return finalFlow;
   };
   const handledraft = async () => {
-  try {
-   
-debugger;
-    
- 
- const flow = await buildApprovalFlow();
+    try {
+
+      debugger;
+
+
+      const flow = await buildApprovalFlow();
       const currentApprover = flow.length > 0 ? flow[0].Id : null;
       let ensuredUserId: number | null = null;
-const existingFlow = formData.ApprovalMatrix
+      const existingFlow = formData.ApprovalMatrix
         ? JSON.parse(formData.ApprovalMatrix)
         : [];
 
@@ -200,67 +200,67 @@ const existingFlow = formData.ApprovalMatrix
         ? JSON.parse(formData.WorkFlowHistory)
         : [];
 
-    history.push({
-      CurrentApprover: employee.EmployeeName,
-      ActionTaken: "Edited",
-      Comment: remarks,
-      Date: new Date().toISOString(),
-    });
-
-    await sp.web.lists
-      .getByTitle("OpexAdvance")
-      .items.getById(formData.ID)
-      .update({
-        Title: formData.CapexID,
-        CapexID: formData.CapexID,
-
-        EmployeeCode: employee.EmployeeCode,
-        EmployeeName: employee.EmployeeName,
-
-        VendorCodeId: selectedVendorId,
-        VendorName: selectedVendorName,
-
-        PONumber: poNumber,
-        PODate: poDate ? new Date(poDate) : null,
-
-        POAmtGST: poAmount,
-        RequestAdvanceAmount: advanceAmount,
-        PaidAmount: paidAmount,
-
-        ExpectedDateofSettlement: expectedDate
-          ? new Date(expectedDate)
-          : null,
-
-        PICNameId: ensuredUserId,
-
-        GL: glCode,
-        CostCenter: costCenter,
-        Remarks: remarks,
-        Purpose: projectDesc,
-
-        Status: "Draft", // ✅ important change
-       ApprovalMatrix: JSON.stringify(flow),
-
-        CurrentApproverId: currentApprover, // 🔥 not started
-
-        WorkFlowHistory: JSON.stringify(history),
+      history.push({
+        CurrentApprover: employee.EmployeeName,
+        ActionTaken: "Edited",
+        Comment: remarks,
+        Date: new Date().toISOString(),
       });
 
-    if (selectedFiles.length > 0) {
-      await uploadFiles();
-    }
+      await sp.web.lists
+        .getByTitle("OpexAdvance")
+        .items.getById(formData.ID)
+        .update({
+          Title: formData.CapexID,
+          CapexID: formData.CapexID,
 
-    alert("Draft saved successfully ✅");
-    window.location.href =
+          EmployeeCode: employee.EmployeeCode,
+          EmployeeName: employee.EmployeeName,
+
+          VendorCodeId: selectedVendorId,
+          VendorName: selectedVendorName,
+
+          PONumber: poNumber,
+          PODate: poDate ? new Date(poDate) : null,
+
+          POAmtGST: poAmount,
+          RequestAdvanceAmount: advanceAmount,
+          PaidAmount: paidAmount,
+
+          ExpectedDateofSettlement: expectedDate
+            ? new Date(expectedDate)
+            : null,
+
+          PICNameId: ensuredUserId,
+
+          GL: glCode,
+          CostCenter: costCenter,
+          Remarks: remarks,
+          Purpose: projectDesc,
+
+          Status: "Draft", // ✅ important change
+          ApprovalMatrix: JSON.stringify(flow),
+
+          CurrentApproverId: currentApprover, // 🔥 not started
+
+          WorkFlowHistory: JSON.stringify(history),
+        });
+
+      if (selectedFiles.length > 0) {
+        await uploadFiles();
+      }
+
+      alert("Draft saved successfully ✅");
+      window.location.href =
         "https://isriglobal.sharepoint.com/sites/SonaFinance/SitePages/OpexAdvancedForm.aspx?page=User";
       void handleExit();
-   // window.location.reload();
+      // window.location.reload();
 
-  } catch (error) {
-    console.error("ERROR:", error);
-    alert("Error while saving ❌");
-  }
-};
+    } catch (error) {
+      console.error("ERROR:", error);
+      alert("Error while saving ❌");
+    }
+  };
 
   const handleDeleteExistingFile = async (file: any) => {
     try {
@@ -513,7 +513,7 @@ const existingFlow = formData.ApprovalMatrix
   // =========================
   useEffect(() => {
     if (!formData) return;
-debugger;
+    debugger;
     setPoNumber(formData.PONumber || "");
     setPoDate(formData.PODate?.split("T")[0] || "");
     setPoTerms(formData.POAdvanceTerms || "");
@@ -567,13 +567,13 @@ debugger;
   }, [formData]);
 
   useEffect(() => {
-  void getLoggedInUser();
-  void getVendors();
-debugger;
-  if (selectedVendorId) {
-    void getPreviousAdvances(selectedVendorId);
-  }
-}, []);
+    void getLoggedInUser();
+    void getVendors();
+    debugger;
+    if (selectedVendorId) {
+      void getPreviousAdvances(selectedVendorId);
+    }
+  }, []);
 
 
   // =========================
@@ -597,13 +597,12 @@ debugger;
                   {approvalMatrix.map((a, index) => (
                     <li
                       key={index}
-                      className={`approval-step ${
-                        a.Status === "In Progress"
-                          ? "active"
-                          : a.Status === "Approved"
-                            ? "approved"
-                            : ""
-                      }`}
+                      className={`approval-step ${a.Status === "In Progress"
+                        ? "active"
+                        : a.Status === "Approved"
+                          ? "approved"
+                          : ""
+                        }`}
                     >
                       {a.Role} - {a.Name}
                     </li>
@@ -696,7 +695,7 @@ debugger;
                 </div>
               </div>
               <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Vendor & PO Details</label>
+                <label>Opex Details</label>
               </div>
               <div className="main-formcontainer">
                 <div className="row mb-20">
@@ -812,13 +811,6 @@ debugger;
                       className="form-control"
                     />
                   </div>
-                </div>
-              </div>
-              <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Advance Details</label>
-              </div>
-              <div className="main-formcontainer">
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Expected Settlement Date</label>
                     <input
@@ -829,6 +821,8 @@ debugger;
                       onChange={(e) => setExpectedDate(e.target.value)}
                     />
                   </div>
+                </div>
+                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">PIC Name</label>
                     <PeoplePicker
@@ -842,34 +836,17 @@ debugger;
                   </div>
                   <div className="col-md-4">
                     <label className="font">GL Code</label>
-
-                   <input value={glCode} className="form-control readonly" />
+                    <input value={glCode} className="form-control readonly" />
                   </div>
-                </div>
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Cost Center</label>
                     <input
                       value={employee.CostCenter || ""}
-                      className="font-control readoly"
+                      className="form-control readonly"
                     />
                   </div>
-                  <div className="col-md-4"></div>
                 </div>
-              </div>
-              <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Remarks</label>
-              </div>
-              <div className="main-formcontainer">
                 <div className="row mb-20">
-                  <div className="col-md-4">
-                    <label className="font">Remarks</label>
-                    <textarea
-                      value={remarks}
-                      onChange={(e) => setRemarks(e.target.value)}
-                      className="form-control"
-                    />
-                  </div>
                   <div className="col-md-4">
                     <label className="font">Purpose</label>
                     <textarea
@@ -903,7 +880,7 @@ debugger;
                               <th className="px-4 py-2">Pending Advance</th>
                             </tr>
                           </thead>
-                           <tbody>
+                          <tbody>
                             {previousAdvances.length === 0 ? (
                               <tr>
                                 <td colSpan={7} style={{ textAlign: "center" }}>
@@ -916,7 +893,7 @@ debugger;
                                   const pending = Math.max(
                                     0,
                                     Number(item.RequestAdvanceAmount || 0) -
-                                      Number(item.PaidAmount || 0),
+                                    Number(item.PaidAmount || 0),
                                   );
                                   return (
                                     <tr key={index}>
@@ -926,16 +903,16 @@ debugger;
                                       <td>
                                         {item.Created
                                           ? new Date(
-                                              item.Created,
-                                            ).toLocaleDateString()
+                                            item.Created,
+                                          ).toLocaleDateString()
                                           : ""}
                                       </td>
 
                                       <td>
                                         {item.VoucherDate
                                           ? new Date(
-                                              item.VoucherDate,
-                                            ).toLocaleDateString()
+                                            item.VoucherDate,
+                                          ).toLocaleDateString()
                                           : ""}
                                       </td>
 
@@ -955,10 +932,18 @@ debugger;
                 </div>
               </div>
               <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Upload Document</label>
+                <label>Remarks</label>
               </div>
               <div className="main-formcontainer">
                 <div className="row mb-20">
+                  <div className="col-md-8">
+                    <label className="font">Remarks</label>
+                    <textarea
+                      value={remarks}
+                      onChange={(e) => setRemarks(e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
                   <div className="col-md-4">
                     <label className="font">Attachments</label>
                     {attachments.length > 0 && (
@@ -1009,8 +994,9 @@ debugger;
                       <p>No history available</p>
                     ) : (
                       <div className="workflow-history">
-                        {workflowHistory.map((h, index) => (
-                          <div key={index} className="history-item">
+                        {/* {workflowHistory.map((h, index) => (
+                          <> */}
+                            {/* <div key={index} className="history-item">
                             <div>
                               {h.ActionTaken === "Approved" && "✅ "}
                               {h.ActionTaken === "Rejected" && "❌ "}
@@ -1025,8 +1011,30 @@ debugger;
                             <div className="date">
                               {new Date(h.Date).toLocaleString()}
                             </div>
-                          </div>
-                        ))}
+                          </div> */}
+
+                            <table className="workflow-table" style={{ width: '100%' }}>
+                              <thead>
+                                <tr>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Action By</th>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Action Taken</th>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Date</th>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Comment</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {workflowHistory.map((h: any, idx: number) => (
+                                  <tr key={idx}>
+                                    <td style={{ padding: '8px' }}>{h.CurrentApprover || ''}</td>
+                                    <td style={{ padding: '8px' }}>{h.ActionTaken || ''}</td>
+                                    <td style={{ padding: '8px' }}>{h.Date || ''}</td>
+                                    <td style={{ padding: '8px' }}>{h.Comment || ''}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          {/* </>
+                        ))} */}
                       </div>
                     )}
                   </div>

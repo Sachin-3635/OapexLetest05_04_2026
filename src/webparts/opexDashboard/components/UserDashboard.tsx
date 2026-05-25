@@ -46,55 +46,55 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ context }) => {
 
   // ✅ GET LIST DATA
   const getCapexData = async () => {
-  try {
-    let filterQuery = "";
-    const currentUser = await sp.web.currentUser();
-    filterQuery = `Author/Id eq ${currentUser.Id}`;
-    if (activeMenu === "My Request") {
-      filterQuery = "Status ne 'Paid' and Status ne 'Rejected'";
-    } else if (activeMenu === "Paid") {
-      filterQuery = "Status eq 'Paid'";
-    } else if (activeMenu === "Rejected") {
-      filterQuery = "Status eq 'Rejected'";
+    try {
+      let filterQuery = "";
+      const currentUser = await sp.web.currentUser();
+      filterQuery = `Author/Id eq ${currentUser.Id}`;
+      if (activeMenu === "My Request") {
+        filterQuery = "Status ne 'Paid' and Status ne 'Rejected'";
+      } else if (activeMenu === "Paid") {
+        filterQuery = "Status eq 'Paid'";
+      } else if (activeMenu === "Rejected") {
+        filterQuery = "Status eq 'Rejected'";
+      }
+
+      const items = await sp.web.lists
+        .getByTitle("OpexAdvance")
+        .items.select(
+          "ID",
+          "Title",
+          "Created",
+          "EmployeeName",
+          "VendorName",
+          "VendorCode/Id",
+          "VendorCode/VendorCode",
+          "PONumber",
+          "RequestAdvanceAmount",
+          "Status",
+        )
+        .expand("VendorCode")
+        .filter(filterQuery) // 🔥 dynamic filter
+        .orderBy("ID", false)();
+
+      const formatted = items.map((item: any) => ({
+        ID: item.ID,
+        id: item.Title,
+        date: item.Created
+          ? new Date(item.Created).toLocaleDateString("en-GB")
+          : "",
+        EmployeeName: item.EmployeeName,
+        vendor: item.VendorName || "",
+        vendorCode: item.VendorCode?.VendorCode || "",
+        po: item.PONumber || "",
+        amount: item.RequestAdvanceAmount || 0,
+        status: item.Status || "",
+      }));
+
+      setData(formatted);
+    } catch (error) {
+      console.error("Data error:", error);
     }
-
-    const items = await sp.web.lists
-      .getByTitle("OpexAdvance")
-      .items.select(
-        "ID",
-        "Title",
-        "Created",
-        "EmployeeName",
-        "VendorName",
-        "VendorCode/Id",
-        "VendorCode/VendorCode",
-        "PONumber",
-        "RequestAdvanceAmount",
-        "Status",
-      )
-      .expand("VendorCode")
-      .filter(filterQuery) // 🔥 dynamic filter
-      .orderBy("ID", false)();
-
-    const formatted = items.map((item: any) => ({
-      ID: item.ID,
-      id: item.Title,
-      date: item.Created
-        ? new Date(item.Created).toLocaleDateString("en-GB")
-        : "",
-      EmployeeName: item.EmployeeName,
-      vendor: item.VendorName || "",
-      vendorCode: item.VendorCode?.VendorCode || "",
-      po: item.PONumber || "",
-      amount: item.RequestAdvanceAmount || 0,
-      status: item.Status || "",
-    }));
-
-    setData(formatted);
-  } catch (error) {
-    console.error("Data error:", error);
-  }
-};
+  };
 
 
   const filteredData = data.filter((item) => {
@@ -152,12 +152,12 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ context }) => {
     }
   };
   // ✅ LOAD DATA
- React.useEffect(() => {
-  if (!context) return;
+  React.useEffect(() => {
+    if (!context) return;
 
-  void getLoggedInUser();
-  void getCapexData(); // 🔥 will run on menu change
-}, [context, activeMenu]);
+    void getLoggedInUser();
+    void getCapexData(); // 🔥 will run on menu change
+  }, [context, activeMenu]);
 
 
   // ✅ OPEN VIEW PAGE
@@ -270,6 +270,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ context }) => {
               <table className="custom-table min-w-full bg-white rounded-2xl shadow-md">
                 <thead className="text-white" style={{ backgroundColor: "rgb(60, 62, 69)" }}>
                   <tr>
+                    <th className="px-4 py-2">Action</th>
                     <th className="px-4 py-2">Payment ID</th>
                     <th className="px-4 py-2">Requestor Date</th>
                     <th className="px-4 py-2">Requestor Name</th>
@@ -280,7 +281,6 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ context }) => {
                     <th className="px-4 py-2">Advance Amount</th>
                     <th className="px-4 py-2">Pending With</th>
                     <th className="px-4 py-2">Status</th>
-                    <th className="px-4 py-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -293,16 +293,6 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ context }) => {
                   ) : (
                     filteredData.map((item, i) => (
                       <tr key={i}>
-                        <td className="px-4 py-2">{item.id}</td>
-                        <td className="px-4 py-2">{item.date}</td>
-                        <td className="px-4 py-2">{item.EmployeeName}</td>
-                        <td className="px-4 py-2">Opex Advance</td>
-                        <td className="px-4 py-2"> {item.vendorCode}</td>
-                        <td className="px-4 py-2">{item.vendor}</td>
-                        <td className="px-4 py-2">{item.po}</td>
-                        <td className="px-4 py-2">₹ {item.amount}</td>
-                        <td className="px-4 py-2">Approver</td>
-                        <td className="px-4 py-2">{item.status}</td>
                         <td className="px-4 py-2">
                           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                             <span onClick={() => handleViewClick(item)} style={{ cursor: "pointer" }}>
@@ -315,6 +305,16 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ context }) => {
                             )}
                           </div>
                         </td>
+                        <td className="px-4 py-2">{item.id}</td>
+                        <td className="px-4 py-2">{item.date}</td>
+                        <td className="px-4 py-2">{item.EmployeeName}</td>
+                        <td className="px-4 py-2">Opex Advance</td>
+                        <td className="px-4 py-2"> {item.vendorCode}</td>
+                        <td className="px-4 py-2">{item.vendor}</td>
+                        <td className="px-4 py-2">{item.po}</td>
+                        <td className="px-4 py-2">₹ {item.amount}</td>
+                        <td className="px-4 py-2">Approver</td>
+                        <td className="px-4 py-2">{item.status}</td>
                       </tr>
                     ))
                   )}

@@ -89,7 +89,7 @@ const APperformerDashboard: React.FC<UserDashboardProps> = ({ context }) => {
 
         .filter(
           `Status eq 'Pending for PF Approver' 
-   or Status eq 'Pending for PF Approver UTR' and CurrentApprover/Id eq ${currentUser.Id}` )
+   or Status eq 'Pending for PF Approver UTR' and CurrentApprover/Id eq ${currentUser.Id}`)
 
         .orderBy("ID", false)();
 
@@ -189,7 +189,7 @@ const APperformerDashboard: React.FC<UserDashboardProps> = ({ context }) => {
         </div>
 
         <div className="sidehead-user">
-          <img src={User} style={{ margin: "10px 20px"}} width={20} height={20} />
+          <img src={User} style={{ margin: "10px 20px" }} width={20} height={20} />
           {currentUserName}
         </div>
 
@@ -239,6 +239,7 @@ const APperformerDashboard: React.FC<UserDashboardProps> = ({ context }) => {
               <table className="custom-table min-w-full bg-white rounded-2xl shadow-md">
                 <thead className="text-white" style={{ backgroundColor: "rgb(60, 62, 69)" }}>
                   <tr>
+                    <th className="px-4 py-2">Action</th>
                     <th className="px-4 py-2">Payment ID</th>
                     <th className="px-4 py-2">Requestor Date</th>
                     <th className="px-4 py-2">Requestor Name</th>
@@ -249,7 +250,6 @@ const APperformerDashboard: React.FC<UserDashboardProps> = ({ context }) => {
                     <th className="px-4 py-2">Advance Amount</th>
                     <th className="px-4 py-2">Pending With</th>
                     <th className="px-4 py-2">Status</th>
-                    <th className="px-4 py-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -262,6 +262,14 @@ const APperformerDashboard: React.FC<UserDashboardProps> = ({ context }) => {
                   ) : (
                     filteredData.map((item, i) => (
                       <tr key={i}>
+                        <td className="px-4 py-2">
+                          {(item.status === "Pending for PF Approver" ||
+                            item.status === "Pending for PF Approver UTR") && (
+                              <span onClick={() => handleApproveClick(item)} style={{ cursor: "pointer" }}>
+                                <img src={Edit} width={15} alt="View" />
+                              </span>
+                            )}
+                        </td>
                         <td className="px-4 py-2">{item.id}</td>
                         <td className="px-4 py-2">{item.date}</td>
                         <td className="px-4 py-2">{item.EmployeeName}</td>
@@ -272,19 +280,11 @@ const APperformerDashboard: React.FC<UserDashboardProps> = ({ context }) => {
                         <td className="px-4 py-2">₹ {item.amount}</td>
                         <td className="px-4 py-2">Approver</td>
                         <td className="px-4 py-2">{item.status}</td>
-                        <td className="px-4 py-2">
-                          {(item.status === "Pending for PF Approver" ||
-                            item.status === "Pending for PF Approver UTR") && (
-                              <span onClick={() => handleApproveClick(item)} style={{ cursor: "pointer" }}>
-                                <img src={Edit} width={15} alt="View" />
-                              </span>
-                            )}
-                        </td>
                       </tr>
                     ))
                   )}
                 </tbody>
-                
+
               </table>
             </div>
           </div>

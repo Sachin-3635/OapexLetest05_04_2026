@@ -39,7 +39,7 @@ const ApproverAdvanceForm: React.FC<IProps> = ({ context, itemId }) => {
     spHttpClient: context.spHttpClient,
   };
 
-   const buildApprovalPreview = async (employee: any) => {
+  const buildApprovalPreview = async (employee: any) => {
     const flow: any[] = [];
 
     // RM
@@ -77,7 +77,7 @@ const ApproverAdvanceForm: React.FC<IProps> = ({ context, itemId }) => {
     setApprovalMatrix([...flow, ...matrixApprovers]);
   };
 
-   const getLoggedInUser = async () => {
+  const getLoggedInUser = async () => {
     try {
       debugger;
       const currentUser = await sp.web.currentUser();
@@ -172,7 +172,7 @@ const ApproverAdvanceForm: React.FC<IProps> = ({ context, itemId }) => {
   const getItemById = async () => {
     try {
 
-debugger;
+      debugger;
       const item = await sp.web.lists
         .getByTitle("OpexAdvance")
         .items.getById(itemId)
@@ -221,7 +221,7 @@ debugger;
 
     const loadData = async () => {
       debugger;
-        await getLoggedInUser();
+      await getLoggedInUser();
       await getItemById();    // 👈 FIRST load item to get VendorCode
       await getVendors();     // 👈 FIRST load vendors
       await getAttachments(itemData.CapexID);
@@ -288,7 +288,7 @@ debugger;
       }
 
       let ApproverStatus;
-      
+
       if (currentRole === "RM") {
         ApproverStatus = "Pending for HOD";
       } else if (currentRole === "HOD") {
@@ -546,7 +546,7 @@ debugger;
               </div>
             )}
             <div className='borderedbox'>
-              <div className="heading1">
+              <div className="heading1" style={{ marginTop: "10px" }}>
                 <label>Requestor Information</label>
               </div>
               <div className='main-formcontainer'>
@@ -593,8 +593,8 @@ debugger;
                   </div>
                 </div>
               </div>
-              <div className="heading1">
-                <label>Vendor & PO Details</label>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>Opex Details</label>
               </div>
               <div className='main-formcontainer'>
                 <div className='row mb-20'>
@@ -602,13 +602,13 @@ debugger;
                     <label className="font">Vendor Code</label>
                     <select
                       value={selectedVendorId ?? ""}
-                      disabled={true}
+                      className="form-control readonly"
                       onChange={(e) => {
                         const id = Number(e.target.value);
                         const vendor = vendors.find((v) => v.Id === id);
                         setSelectedVendorId(id);
                         setSelectedVendorName(vendor?.VendorName || "");
-                      }} className="formtext-control"
+                      }}
                     >
                       <option value="">Select Vendor</option>
                       {vendors.map((v) => (
@@ -619,49 +619,44 @@ debugger;
                     </select>
                   </div>
                   <div className="col-md-4">
-                    <label>Vendor Name</label>
+                    <label className="font">Vendor Name</label>
                     <input value={itemData.VendorName || ""} className="form-control readonly" />
                   </div>
                   <div className="col-md-4">
-                    <label>PO Number</label>
+                    <label className="font">PO Number</label>
                     <input value={itemData.PONumber || ""} className="form-control readonly" />
                   </div>
                 </div>
                 <div className='row mb-20'>
                   <div className="col-md-4">
                     <label className="font">PO Date</label>
-                    <input value={itemData.PODate ? new Date(itemData.PODate).toLocaleDateString("en-GB") : ""} className="font-control readonly" />
+                    <input value={itemData.PODate ? new Date(itemData.PODate).toLocaleDateString("en-GB") : ""} className="form-control readonly" />
                   </div>
                   <div className="col-md-4">
                     <label className="font">PO Terms</label>
-                    <input value={itemData.POAdvanceTerms || ""} className="font-control readonly" />
+                    <input value={itemData.POAdvanceTerms || ""} className="form-control readonly" />
                   </div>
                   <div className="col-md-4">
                     <label className="font">PO Amount</label>
-                    <input value={itemData.POAmtGST || ""} className="font-control readonly" />
+                    <input value={itemData.POAmtGST || ""} className="form-control readonly" />
                   </div>
                 </div>
                 <div className='row mb-20'>
                   <div className='col-md-4'>
                     <label className="font">Advance Amount</label>
-                    <input value={itemData.RequestAdvanceAmount || ""} className="font-control readonly" />
+                    <input value={itemData.RequestAdvanceAmount || ""} className="form-control readonly" />
                   </div>
                   <div className='col-md-4'>
                     <label className="font">Paid Amount</label>
-                    <input value={itemData.PaidAmount || ""} className="font-control readonly" />
+                    <input value={itemData.PaidAmount || ""} className="form-control readonly" />
                   </div>
-                </div>
-              </div>
-              <div className="heading1">
-                <label>Advance Details</label>
-              </div>
-              <div className='main-formcontainer'>
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Expected Settlement</label>
                     <input value={itemData.ExpectedDateofSettlement ? new Date(itemData.ExpectedDateofSettlement,).toLocaleDateString("en-GB") : ""}
-                      className="font-control readonly" />
+                      className="form-control readonly" />
                   </div>
+                </div>
+                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">PIC Name</label>
                     <PeoplePicker
@@ -676,32 +671,21 @@ debugger;
                   </div>
                   <div className="col-md-4">
                     <label className="font">GL Code</label>
-                    <input value={itemData.GL || ""} className="font-control readonly" />
+                    <input value={itemData.GL || ""} className="form-control readonly" />
                   </div>
-                </div>
-                <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Cost Center</label>
-                    <input value={itemData.CostCenter || ""} className="font-control readonly" />
+                    <input value={itemData.CostCenter || ""} className="form-control readonly" />
                   </div>
                 </div>
-              </div>
-              <div className="heading1">
-                <label>Remarks</label>
-              </div>
-              <div className='main-formcontainer'>
                 <div className="row mb-20">
                   <div className="col-md-4">
-                    <label className="font">User Remarks</label>
-                    <textarea value={itemData.Remarks || ""} className="font-control readonly" />
-                  </div>
-                  <div className="col-md-4">
                     <label className="font">Purpose</label>
-                    <textarea value={itemData.Purpose || ""} className="font-control readonly" />
+                    <label className="fonttext textbox readonlytwo" style={{width: "100%", height: "auto"}}>{itemData.Purpose || ""}</label>
                   </div>
                 </div>
               </div>
-              <div className="heading1">
+              <div className="heading1" style={{ marginTop: "10px" }}>
                 <label>Workflow History</label>
               </div>
               <div className='main-formcontainer'>
@@ -711,7 +695,7 @@ debugger;
                       <p>No history available</p>
                     ) : (
                       <div className="workflow-history">
-                        {workflowHistory.map((h, index) => (
+                        {/* {workflowHistory.map((h, index) => (
                           <div key={index} className="history-item">
                             <div>
                               {h.ActionTaken === "Approved" && "✅ "}
@@ -726,28 +710,48 @@ debugger;
                               {new Date(h.Date).toLocaleString()}
                             </div>
                           </div>
-                        ))}
+                        ))} */}
+                        <table className="workflow-table" style={{ width: '100%' }}>
+                          <thead>
+                            <tr>
+                              <th style={{ padding: '8px', textAlign: 'left' }}>Action By</th>
+                              <th style={{ padding: '8px', textAlign: 'left' }}>Action Taken</th>
+                              <th style={{ padding: '8px', textAlign: 'left' }}>Date</th>
+                              <th style={{ padding: '8px', textAlign: 'left' }}>Comment</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {workflowHistory.map((h: any, idx: number) => (
+                              <tr key={idx}>
+                                <td style={{ padding: '8px' }}>{h.CurrentApprover || ''}</td>
+                                <td style={{ padding: '8px' }}>{h.ActionTaken || ''}</td>
+                                <td style={{ padding: '8px' }}>{h.Date || ''}</td>
+                                <td style={{ padding: '8px' }}>{h.Comment || ''}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-              <div className="heading1">
+              <div className="heading1" style={{ marginTop: "10px" }}>
                 <label>Approver Action</label>
               </div>
               <div className='main-formcontainer'>
                 <div className="row mb-20">
                   <div className="col-md-4">
                     <label className="font">Approver Remarks</label>
-                    <textarea className="font-control"
+                    <textarea className="form-control"
                       value={approverRemarks}
                       onChange={(e) => setApproverRemarks(e.target.value)}
                     />
                   </div>
                 </div>
               </div>
-              <div className="heading1">
-                <label>Upload Document</label>
+              <div className="heading1" style={{ marginTop: "10px" }}>
+                <label>Uploaded Document</label>
               </div>
               <div className='main-formcontainer'>
                 <div className="row mb-20">

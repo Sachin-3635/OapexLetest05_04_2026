@@ -104,6 +104,14 @@ const ViewAdvanceForm = ({ context, formData, onClose }: any) => {
     void setVendors(data);
   };
 
+  const formatDateDDMMYY = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const dd = String(date.getDate()).padStart(2, "0");
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const yy = String(date.getFullYear()).slice(-2);
+    return `${dd}-${mm}-${yy}`;
+  };
+
   // ✅ Bind SharePoint Data
   useEffect(() => {
     if (!formData) return;
@@ -301,7 +309,7 @@ const ViewAdvanceForm = ({ context, formData, onClose }: any) => {
                 </div>
               </div>
               <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Vendor & PO</label>
+                <label>Opex Details</label>
               </div>
               <div className='main-formcontainer'>
                 <div className='row mb-20'>
@@ -309,7 +317,7 @@ const ViewAdvanceForm = ({ context, formData, onClose }: any) => {
                     <label className="font">Vendor Code</label>
                     <select
                       value={selectedVendorId ?? ""}
-                      disabled={true}
+                      className="form-control readonly"
                       onChange={(e) => {
                         const id = Number(e.target.value);
                         const vendor = vendors.find((v) => v.Id === id);
@@ -327,53 +335,42 @@ const ViewAdvanceForm = ({ context, formData, onClose }: any) => {
                   </div>
                   <div className="col-md-4">
                     <label className="font">Vendor Name</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{vendorName}</label>
+                    <input type="text" value={vendorName} className="fonttext form-control readonly" />
                   </div>
                   <div className="col-md-4">
                     <label className="font">PO Number</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{poNumber}</label>
+                    <input type="text" value={poNumber} className="fonttext form-control readonly" />
                   </div>
                 </div>
                 <div className='row mb-20'>
                   <div className='col-md-4'>
                     <label className="font">PO Date</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{poDate}</label>
+                    <input type="date" value={poDate} className="fonttext form-control readonly" />
                   </div>
                   <div className='col-md-4'>
                     <label className="font">PO Terms</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{poTerms}</label>
+                    <input type="text" value={poTerms} className="fonttext form-control readonly" />
                   </div>
-
-                </div>
-              </div>
-              <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Amount</label>
-              </div>
-              <div className='main-formcontainer'>
-                <div className='row mb-20'>
                   <div className="col-md-4">
                     <label className="font">PO Amount</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{poAmount}</label>
+                    <input type="text" value={poAmount} className="fonttext form-control readonly" />
                   </div>
+                </div>
+                <div className='row mb-20'>
                   <div className="col-md-4">
                     <label className="font">Advance Amount</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{advanceAmount}</label>
+                    <input type="text" value={advanceAmount} className="fonttext form-control readonly" />
                   </div>
                   <div className="col-md-4">
                     <label className="font">Paid Amount</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{paidAmount}</label>
+                    <input type="text" value={paidAmount} className="fonttext form-control readonly" />
                   </div>
-                </div>
-              </div>
-              <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Advance Details</label>
-              </div>
-              <div className='main-formcontainer'>
-                <div className='row mb-20'>
                   <div className="col-md-4">
                     <label className="font">Expected Date</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{expectedDate}</label>
+                    <input type="date" value={expectedDate} className="fonttext form-control readonly" />
                   </div>
+                </div>
+                <div className='row mb-20'>
                   <div className="col-md-4">
                     <label className="font">PIC Name</label> : &nbsp;&nbsp;
                     <PeoplePicker
@@ -388,60 +385,42 @@ const ViewAdvanceForm = ({ context, formData, onClose }: any) => {
                   </div>
                   <div className="col-md-4">
                     <label className="font">GL Code</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{glCode}</label>
+                    <input type="text" value={glCode} className="fonttext form-control readonly" />
                   </div>
-                </div>
-                <div className='row mb-20'>
                   <div className="col-md-4">
                     <label className="font">Cost Center</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{costCenter}</label>
+                    <input type="text" value={costCenter} className="fonttext form-control readonly" />
                   </div>
                 </div>
               </div>
+              
               <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Remark</label>
+                <label>Vouching & UTR Details</label>
               </div>
               <div className='main-formcontainer'>
                 <div className='row mb-20'>
-                  <div className='col-md-4'>
-                    <label className='fonttext'>{remarks}</label>
-                  </div>
-                  <div className='col-md-4'>
-                    <label className='fonttext'>{projectDesc}</label>
-                  </div>
-                </div>
-              </div>
-              <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Approver Details</label>
-              </div>
-              <div className='main-formcontainer'>
-                <div className='row mb-20'>
-                  <div className='col-md-4'>
-                    <label className="font">Approver Remarks</label> : &nbsp;&nbsp;
-                    <label className='fonttext'>{approverRemarks}</label>
-                  </div>
-                  <div className='col-md-4'>
+                  <div className='col-md-6'>
                     <label className="font">Voucher Date</label> : &nbsp;&nbsp;
                     <label className='fonttext'>{voucherDate}</label>
                   </div>
-                  <div className='col-md-4'>
+                  <div className='col-md-6'>
                     <label className="font">Voucher Number</label> : &nbsp;&nbsp;
                     <label className='fonttext'>{VouchingNumber}</label>
                   </div>
                 </div>
                 <div className='row mb-20'>
-                  <div className='col-md-4'>
+                  <div className='col-md-6'>
                     <label className="font">UTR Date</label> : &nbsp;&nbsp;
                     <label className='fonttext'>{UTRDate}</label>
                   </div>
-                  <div className='col-md-4'>
+                  <div className='col-md-6'>
                     <label className="font">UTR Number</label> : &nbsp;&nbsp;
                     <label className='fonttext'>{UTRNumber}</label>
                   </div>
                 </div>
               </div>
               <div className="heading1" style={{ marginTop: "10px" }}>
-                <label>Upload Document</label>
+                <label>Uploaded Document</label>
               </div>
               <div className='main-formcontainer'>
                 <div className='row mb-20'>
@@ -475,25 +454,49 @@ const ViewAdvanceForm = ({ context, formData, onClose }: any) => {
                       <p>No history available</p>
                     ) : (
                       <div className="workflow-history">
-                        {workflowHistory.map((h, index) => (
-                          <div key={index} className="history-item">
-                            <div>
-                              {h.ActionTaken === "Submitted" && "📩 "}
-                              {h.ActionTaken === "Approved" && "✅ "}
-                              {h.ActionTaken === "Rejected" && "❌ "}
-                              {h.ActionTaken === "Send Back" && "↩ "}
-                              {h.ActionTaken === "Vouched" && "💰 "}
-                              {h.ActionTaken === "Paid" && "💸 "}
-                              {h.ActionTaken}
-                            </div>
+                        {/* {workflowHistory.map((h, index) => (
+                          <> */}
+                            {/* <div key={index} className="history-item">
+                              <div>
+                                {h.ActionTaken === "Submitted" && "📩 "}
+                                {h.ActionTaken === "Approved" && "✅ "}
+                                {h.ActionTaken === "Rejected" && "❌ "}
+                                {h.ActionTaken === "Send Back" && "↩ "}
+                                {h.ActionTaken === "Vouched" && "💰 "}
+                                {h.ActionTaken === "Paid" && "💸 "}
+                                {h.ActionTaken}
+                              </div>
 
-                            <div><b>{h.CurrentApprover}</b></div>
-                            <div>{h.Comment}</div>
-                            <div className="date">
-                              {new Date(h.Date).toLocaleString()}
-                            </div>
-                          </div>
-                        ))}
+                              <div><b>{h.CurrentApprover}</b></div>
+                              <div>{h.Comment}</div>
+                              <div className="date">
+                                {new Date(h.Date).toLocaleString()}
+                              </div>
+                            </div> */}
+
+                            <table className="workflow-table" style={{ width: '100%' }}>
+                              <thead>
+                                <tr>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Action By</th>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Action Taken</th>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Date</th>
+                                  <th style={{ padding: '8px', textAlign: 'left' }}>Comment</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {workflowHistory.map((h: any, idx: number) => (
+                                  <tr key={idx}>
+                                    <td style={{ padding: '8px' }}>{h.CurrentApprover || ''}</td>
+                                    <td style={{ padding: '8px' }}>{h.ActionTaken || ''}</td>
+                                    <td style={{ padding: '8px' }}>{h.Date || ''}</td>
+                                    <td style={{ padding: '8px' }}>{h.Comment || ''}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          {/* </>
+                        ))} */}
+
                       </div>
                     )}
                   </div>
